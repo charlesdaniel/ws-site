@@ -1,0 +1,33 @@
+<h1>{{t 'notFound.header'}}</h1>
+<p>{{t 'notFound.explanation'}}</p>
+<ul class="nav">
+  {{#active-link}}
+    {{#link-to 'index'}}{{t 'home.link'}}{{/link-to}}
+  {{/active-link}}
+  {{#active-link}}
+    {{#link-to 'guide'}}{{t 'guide.link'}}{{/link-to}}
+  {{/active-link}}
+  {{#active-link}}
+    {{#link-to 'docs'}}{{t 'docs.link'}}{{/link-to}}
+  {{/active-link}}
+  {{#active-link class="dropdown"}}
+    <a
+       class="dropdown-toggle"
+       data-toggle="dropdown"
+       role="button"
+       aria-haspopup="true"
+       >{{t 'testing.trigger'}} <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      {{#active-link}}
+        {{#link-to 'testing.index'}}{{t 'testing.rust.link'}}{{/link-to}}
+      {{/active-link}}
+      {{#active-link}}
+        {{#link-to 'testing.autobahn'}}{{t 'testing.autobahn.link'}}{{/link-to}}
+      {{/active-link}}
+      {{#active-link}}
+        {{#link-to 'testing.results'}}{{t 'testing.results.link'}}{{/link-to}}
+      {{/active-link}}
+    </ul>
+  {{/active-link}}
+  <li><a target="_blank" href="https://github.com/housleyjk/ws-rs">{{t 'repository.link'}}</a></li>
+</ul>

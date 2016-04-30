@@ -1,0 +1,213 @@
+<section>
+  <h3>{{t 'guide.install.header'}}</h3>
+  <p>{{t 'guide.install.instructions'}}</p>
+  {{#code-block}}
+  [dependencies]
+  ws = "*"
+  {{/code-block}}
+  <p>{{t 'guide.install.explanation'}}</p>
+  {{#code-block}}
+  [dependencies]
+  ws = { version = "*", git = "https://github.com/housleyjk/ws-rs"}
+  {{/code-block}}
+</section>
+
+<section>
+  <h3>{{t 'guide.usage.header'}}</h3>
+  <p>{{t 'guide.usage.simple'}}</p>
+
+  {{#code-block}}// A WebSocket echo server
+
+extern crate ws;
+
+use ws::listen;
+
+fn main() {
+  listen("127.0.0.1:3012", |out| {
+      move |msg| {
+         out.send(msg)
+      }
+  }).unwrap()
+} {{/code-block}}
+
+  <p>{{t 'guide.usage.clientSimple'}}</p>
+
+  {{#code-block}}// A WebSocket client that sends one message then closes
+extern crate ws;
+
+use ws::{connect, CloseCode};
+
+fn main() {
+  connect("ws://127.0.0.1:3012", |out| {
+      out.send("Hello WebSocket").unwrap();
+
+      move |msg| {
+          println!("Got message: {}", msg);
+          out.close(CloseCode::Normal)
+      }
+  }).unwrap()
+} {{/code-block}}
+
+  <p>{{t 'guide.usage.explanation'}}</p>
+</section>
+<section>
+  <h2>{{t 'guide.architecture.header'}}</h2>
+
+  <p>{{t 'guide.architecture.p1'}}</p>
+  <p>{{t 'guide.architecture.p2'}}</p>
+  <p>{{t 'guide.architecture.p3'}}</p>
+  <p>{{t 'guide.architecture.p4'}}</p>
+  <p>{{t 'guide.architecture.p5'}}</p>
+</section>
+
+<section>
+  <h2>{{t 'guide.impl.header'}}</h2>
+
+  <p>{{t 'guide.impl.intro'}}</p>
+  {{#code-block}}
+extern crate ws;
+
+use ws::{connect, Handler, Sender, Handshake, Result, Message, CloseCode};
+
+// Our Handler struct.
+// Here we explicity indicate that the Client needs a Sender,
+// whereas a closure captures the Sender for us automatically.
+struct Client {
+    out: Sender,
+}
+
+// We implement the Handler trait for Client so that we can get more
+// fine-grained control of the connection.
+impl Handler for Client {
+
+    // `on_open` will be called only after the WebSocket handshake is successful
+    // so at this point we know that the connection is ready to send/receive messages.
+    // We ignore the `Handshake` for now, but you could also use this method to setup
+    // Handler state or reject the connection based on the details of the Request
+    // or Response, such as by checking cookies or Auth headers.
+    fn on_open(&amp;mut self, _: Handshake) -&gt; Result&lt;()&gt; {
+        // Now we don't need to call unwrap since `on_open` returns a `Result&lt;()&gt;`.
+        // If this call fails, it will only result in this connection disconnecting.
+        self.out.send("Hello WebSocket")
+    }
+
+    // `on_message` is roughly equivalent to the Handler closure. It takes a `Message`
+    // and returns a `Result&lt;()&gt;`.
+    fn on_message(&amp;mut self, msg: Message) -&gt; Result&lt;()&gt; {
+        // Close the connection when we get a response from the server
+        println!("Got message: {}", msg);
+        self.out.close(CloseCode::Normal)
+    }
+}
+
+fn main() {
+  // Now, instead of a closure, the Factory returns a new instance of our Handler.
+  connect("ws://127.0.0.1:3012", |out| Client { out: out } ).unwrap()
+}
+  {{/code-block}}
+
+  <p>{{t 'guide.impl.complexity'}}</p>
+
+  <p>{{t 'guide.impl.onOpen'}}</p>
+
+  <p>{{t 'guide.impl.onClose'}}</p>
+
+<p></p>
+  {{#code-block}}
+extern crate ws;
+
+use ws::{listen, Handler, Sender, Result, Message, CloseCode};
+
+struct Server {
+    out: Sender,
+}
+
+impl Handler for Server {
+
+    fn on_message(&amp;mut self, msg: Message) -&gt; Result&lt;()&gt; {
+        // Echo the message back
+        self.out.send(msg)
+    }
+
+    fn on_close(&amp;mut self, code: CloseCode, reason: &amp;str) {
+        // The WebSocket protocol allows for a utf8 reason for the closing state after the
+        // close code. WS-RS will attempt to interpret this data as a utf8 description of the
+        // reason for closing the connection. I many cases, `reason` will be an empty string.
+        // So, you may not normally want to display `reason` to the user,
+        // but let's assume that we know that `reason` is human-readable.
+        match code {
+            CloseCode::Normal =&gt; println!("The client is done with the connection."),
+            CloseCode::Away   =&gt; println!("The client is leaving the site."),
+            _ =&gt; println!("The client encountered an error: {}", reason),
+        }
+    }
+}
+
+fn main() {
+  listen("127.0.0.1:3012", |out| Server { out: out } ).unwrap()
+} {{/code-block}}
+
+<p>{{t 'guide.impl.onError'}}</p>
+
+{{#code-block}}
+extern crate ws;
+
+use std::rc::Rc;
+use std::cell::Cell;
+
+use ws::{listen, Handler, Sender, Result, Message, Handshake, CloseCode, Error};
+
+struct Server {
+    out: Sender,
+    count: Rc&lt;Cell&lt;u32&gt;&gt;,
+}
+
+impl Handler for Server {
+
+    fn on_open(&amp;mut self, _: Handshake) -&gt; Result&lt;()&gt; {
+        // We have a new connection, so we increment the connection counter
+        Ok(self.count.set(self.count.get() + 1))
+    }
+
+    fn on_message(&amp;mut self, msg: Message) -&amp;gt; Result&lt;()&gt; {
+        // Tell the user the current count
+        println!("The number of live connections is {}", self.count.get());
+
+        // Echo the message back
+        self.out.send(msg)
+    }
+
+    fn on_close(&amp;mut self, code: CloseCode, reason: &amp;str) {
+        match code {
+            CloseCode::Normal =&gt; println!("The client is done with the connection."),
+            CloseCode::Away   =&gt; println!("The client is leaving the site."),
+            CloseCode::Abnormal =&gt; println!(
+                "Closing handshake failed! Unable to obtain closing status from client."),
+            _ =&gt; println!("The client encountered an error: {}", reason),
+        }
+
+        // The connection is going down, so we need to decrement the count
+        self.count.set(self.count.get() - 1)
+    }
+
+    fn on_error(&amp;mut self, err: Error) {
+        println!("The server encountered an error: {:?}", err);
+    }
+
+}
+
+fn main() {
+  // Cell gives us interior mutability so we can increment
+  // or decrement the count between handlers.
+  // Rc is a reference-counted box for sharing the count between handlers
+  // since each handler needs to own its contents.
+  let count = Rc::new(Cell::new(0));
+  listen("127.0.0.1:3012", |out| { Server { out: out, count: count.clone() } }).unwrap()
+} {{/code-block}}
+
+
+<p>{{t 'guide.impl.other'}}</p>
+</section>
+<br>
+<br>
+

@@ -1,0 +1,60 @@
+{{title (t 'guide.deflate.title')}}
+<h1>{{t 'guide.deflate.header'}}</h1>
+<p>{{t 'guide.deflate.intro'}}</p>
+{{#code-block}}
+[dependencies.ws]
+version = "*"
+features = ["permessage-deflate"]
+{{/code-block}}
+<p>{{t 'guide.deflate.usage'}}</p>
+{{#code-block}}
+// An echo server that compresses and decompresses messages using the deflate algorithm
+extern crate ws;
+
+use ws::deflate::DeflateHandler;
+
+fn main() {
+  ws::listen("127.0.0.1:3012", |out| {
+      DeflateHandler::new(move |msg| {
+          out.send(msg)
+      })
+  }).expect("Failed to build WebSocket");
+}
+{{/code-block}}
+<p>{{t 'guide.deflate.settings'}}</p>
+
+{{#code-block}}
+// A WebSocket client that sends a message to an echo server using the permessage-deflate
+// extension with a sliding window of 10 bits.
+extern crate ws;
+
+use ws::deflate::{DeflateBuilder, DeflateSettings};
+
+fn main() {
+  ws::connect("ws://127.0.0.1:3012", |out| {
+    DeflateBuilder::new().with_settings(DeflateSettings {
+        max_window_bits: 10,
+        ..Default::default()
+      }).build(Client {
+        out: out,
+      })
+  }).expect("Failed to build WebSocket");
+}
+
+struct Client {
+  out: ws::Sender,
+}
+
+impl ws::Handler for Client {
+  fn on_open(&amp;mut self, _: ws::Handshake) -&gt; ws::Result&lt;()&gt; {
+    self.out.send("This is the message.
+      It will be compressed by the client and sent to the server, which will decompress it
+      and send it back (recompressing it) for the client to then decompress and print.")
+  }
+
+  fn on_message(&amp;mut self, msg: ws::Message) -&gt; ws::Result&lt;()&gt; {
+    println!("{}", msg);
+    self.out.clode(ws::CloseCode::Normal)
+  }
+}
+{{/code-block}}

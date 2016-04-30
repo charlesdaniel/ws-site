@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'ws-docs',
+    modulePrefix: 'ws-site',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
@@ -16,7 +16,30 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-    }
+    },
+
+    contentSecurityPolicy: {
+      'default-src': "10.0.0.11:3200 localhost:3200",
+      'script-src': "'self' 'unsafe-inline' https://maxcdn.bootstrapcdn.com https://cdnjs.cloudflare.com",
+      'font-src': "'self' http://fonts.gstatic.com", // Allow fonts to be loaded from http://fonts.gstatic.com
+      'connect-src': "'self' ws://10.0.0.11:3012",
+      'img-src': "'self'",
+      'style-src': "'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
+      'media-src': "'self'"
+    },
+
+    API: {
+      wsAddress: 'ws://10.0.0.11:3012',
+    },
+
+    docs: {
+      index: '/api_docs/ws/index.html',
+    },
+
+    autobahn: {
+      clients: '/reports/clients',
+      servers: '/reports/servers',
+    },
   };
 
   if (environment === 'development') {

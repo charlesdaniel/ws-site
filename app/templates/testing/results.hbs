@@ -1,0 +1,32 @@
+{{title (t 'testing.results.title')}}
+<h1>{{t 'testing.results.header'}}</h1>
+<hr>
+
+<section role="legend">
+  <table class='table table-condensed'>
+    <tr>
+      <th>{{t 'testing.results.legend.ok'}}</th>
+      <th>{{t 'testing.results.legend.failed'}}</th>
+      <th>{{t 'testing.results.legend.inform'}}</th>
+      <th>{{t 'testing.results.legend.unimplemented'}}</th>
+      <th>{{t 'testing.results.legend.non-strict'}}</th>
+    </tr>
+    <tr>
+      <td><span class="autobahn-item ok"></span></td>
+      <td><span class="autobahn-item failed"></span></td>
+      <td><span class="autobahn-item inform"></span></td>
+      <td><span class="autobahn-item unimplemented"></span></td>
+      <td><span class="autobahn-item non-strict"></span></td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h3>{{t 'testing.results.server'}}</h3>
+  {{autobahn-test-list reportsUrl='/reports/servers/'}}
+</section>
+
+<section>
+  <h3>{{t 'testing.results.client'}}</h3>
+  {{autobahn-test-list reportsUrl='/reports/clients/'}}
+</section>

@@ -1,0 +1,153 @@
+@import "bootstrap";
+
+.doc-viewer {
+    width: inherit;
+    height: calc(100% - 48px);
+    position: fixed;
+    padding-right: 12px;
+}
+
+.chatbar {
+    height: calc(100% - 48px);
+    position: fixed;
+    right: 0;
+    background: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    width: 33.3333333333333%;
+}
+
+.record {
+    position: fixed;
+    bottom: 20%;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    width: 31%;
+    height: calc(80% - 48px);
+    padding: 6px;
+
+    .record-inner {
+        position: fixed;
+        bottom: inherit;
+        width: inherit;
+        height: inherit;
+        overflow: auto;
+    }
+}
+
+.message {
+    width: 100%;
+}
+
+.message-content {
+}
+
+.self {
+    color: #df3600;
+}
+
+.system {
+    color: #C82829;
+}
+
+.nick-form {
+    margin-right: 24px;
+    margin-bottom: 12px;
+    margin-left: 12px;
+    width: 90%;
+}
+
+#main-content {
+    margin-top: 48px;
+}
+
+#chat-input {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: inherit;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 12px;
+}
+
+#chat-message-input {
+    width: 90%;
+    margin-right: 5%;
+    margin-left: 5%;
+    resize: none;
+}
+
+#chat-nick-input {
+    margin: 12px;
+    margin-left: 0px;
+}
+
+.chat-label {
+    font-size: 18px;
+}
+
+.autobahn-link:hover {
+    text-decoration: none;
+}
+
+.autobahn-item {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    margin: 2px;
+    border-radius: 8px;
+    border: 1px solid #e7e7e7;
+}
+
+.autobahn-item.ok {
+    background: #4d76ae;
+}
+
+.autobahn-item.failed {
+    background: #C82829;
+}
+
+.autobahn-item.inform {
+    background: #7c5af3;
+}
+
+.autobahn-item.unimplemented {
+    background: #e57300;
+}
+
+.autobahn-item.non-strict {
+    background: #5e9766;
+}
+
+@media (max-width: 991px) {
+    .chatbar {
+        min-height: inherit;
+        width: 100%;
+        height: 50%;
+        bottom: 0;
+    }
+    .record {
+        min-height: inherit;
+        height: 20%;
+        width: calc(100% - 30px);
+        bottom: 28%;
+
+    }
+    .doc-viewer {
+        height: calc(50% - 48px);
+    }
+
+    .non-chat {
+        height: calc(50% - 48px);
+        position: fixed;
+        overflow: auto;
+    }
+
+    #chat-input {
+        height: 26%;
+        overflow: auto;
+    }
+
+}

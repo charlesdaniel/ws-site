@@ -1,0 +1,29 @@
+{{title (t 'testing.autobahn.title')}}
+<h1>{{t 'testing.autobahn.header'}} <small>{{link-to (t 'testing.results.link') 'testing.results'}}</small></h1>
+<hr>
+<p>The <a target='_blank' href='http://autobahn.ws/testsuite'> Autobahn Test Suite</a> provides integration tests for
+establishing conformance with the WebSocket specification (RFC6455). To run the tests yourself, you will need to have
+a working Python installation. It is recommended to run the tests in a
+<a target='_blank' href='https://virtualenvwrapper.readthedocs.org/en/latest/'>virtual environment</a>.</p>
+
+{{#code-block codeClass='nohighlight'}}$ mkvirtualenv wstest --python=/usr/bin/python2
+$ pip install autobahntestsuite{{/code-block}}
+
+<p>WS-RS uses the <em>autobahn-client</em> and <em>autobanh-server</em> examples as WebSocket implementation for the
+test. For example, to test the client implemenation start the test server in one window:</p>
+
+{{#code-block codeClass='nohighlight'}}$ cd tests
+$ wstest -m fuzzingserver{{/code-block}}
+
+<p>And run the client example in the other:</p>
+
+{{#code-block codeClass='nohighlight'}}$ cargo run --example autobahn-client{{/code-block}}
+
+<p>To test the server implementation, start the WS-RS server autobahn-server example in one window:</p>
+
+{{#code-block codeClass='nohighlight'}}$ cargo run --example autobahn-server{{/code-block}}
+
+<p>And run the test suite client in the other:</p>
+
+{{#code-block codeClass='nohighlight'}}$ cd tests
+$ wstest -m fuzzingclient{{/code-block}}

@@ -1,0 +1,7 @@
+<p>
+{{#each reports as |report|}}
+  {{autobahn-test-item report=report}}
+{{else}}
+  {{t 'loading'}}
+{{/each}}
+</p>

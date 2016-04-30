@@ -1,0 +1,22 @@
+{{title (t 'guide.ssl.title')}}
+<h1>{{t 'guide.ssl.header'}}</h1>
+<p>{{t 'guide.ssl.intro'}}</p>
+{{#code-block}}
+[dependencies.ws]
+version = "*"
+features = ["ssl"]
+{{/code-block}}
+<p>{{t 'guide.ssl.usage'}}</p>
+{{#code-block}}
+// An encypted Websocket echo client
+extern crate ws;
+
+fn main() {
+  ws::connect("wss://localhost:3012", |out| {
+      move |msg| {
+          out.send(msg)
+      }
+  })
+}
+{{/code-block}}
+

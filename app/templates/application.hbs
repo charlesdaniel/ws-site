@@ -1,3 +1,10 @@
-<h2 id="title">Welcome to Ember</h2>
-
-{{outlet}}
+{{title (t 'home.title')}}
+{{nav-bar}}
+<div class="container-fluid" id="main-content">
+  <div class="row">
+    <div class="col-xs-12 col-md-8 non-chat">
+      {{outlet}}
+    </div>
+    {{chat-bar}}
+  </div>
+</div>

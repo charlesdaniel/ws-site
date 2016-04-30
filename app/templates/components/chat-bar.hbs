@@ -1,0 +1,34 @@
+<div class="col-xs-12 col-md-4 chatbar">
+  <div id="chat-record" class="record">
+    <div class="record-inner">
+      {{#each messages as |message| }}
+      <div class="message">
+        <span class="nick {{if (eq message.nick nick) 'self'}} {{if (eq message.nick 'system') 'system'}}">{{message.nick}}</span>:
+        <span class="message-content">{{message.message}}</span>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+  <div id="chat-input">
+    <label class="chat-label">{{t 'chat.example'}}</label>
+    {{#if isJoined}}
+      {{textarea
+        placeholder=(t 'chat.message')
+        id="chat-message-input"
+        class="form-control"
+        enter="submitMessage"
+        value=nextMessage
+      }}
+    {{else}}
+      <form class="form form-inline nick-form pull-right">
+      {{input
+        placeholder=(t 'chat.nick')
+        id="chat-nick-input"
+        class="form-control"
+        value=nick
+      }}
+      <button class="btn btn-primary form-control" {{action "submitNick"}}>{{t 'chat.join'}}</button>
+      </form>
+    {{/if}}
+  </div>
+</div>

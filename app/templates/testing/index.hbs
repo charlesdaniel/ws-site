@@ -1,0 +1,14 @@
+<h1>{{t 'testing.rust.header'}}</h1>
+<hr>
+<p>{{t 'testing.rust.intro'}}</p>
+
+{{#code-block codeClass='nohighlight'}}$ git clone https://github.com/housleyjk/ws-rs.git
+$ cargo test{{/code-block}}
+
+<p>{{t 'testing.rust.featureTests'}}</p>
+
+{{#code-block codeClass='nohighlight'}}$ cargo test --features "ssl,permessage-deflate"{{/code-block}}
+
+<p>{{t 'testing.rust.examples'}} 
+{{t 'testing.autobahn.linkBegin'}} 
+{{#link-to 'testing.autobahn'}}{{t 'testing.autobahn.link'}}{{/link-to}}.</p>
