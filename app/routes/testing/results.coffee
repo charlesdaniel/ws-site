@@ -13,9 +13,7 @@ TestingResultsRoute = Ember.Route.extend
   getReports: (path) ->
     ajax = @get 'ajax'
     if @get 'fastboot.isFastBoot'
-      host = @get 'fastboot.request.host'
-      protocol = @get 'fastboot.request.protocol'
-      url = protocol + '://' + host + path + 'index.json'
+      url = 'https://ws-rs.org' + path + 'index.json'
     else
       url = path + 'index.json'
 
@@ -45,6 +43,6 @@ TestingResultsRoute = Ember.Route.extend
         rep.url = url + caseName + '.html'
         rep
     .catch (error) =>
-      console.log 'got error', error
+      console.log error
 
 `export default TestingResultsRoute`
