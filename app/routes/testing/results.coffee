@@ -40,7 +40,7 @@ TestingResultsRoute = Ember.Route.extend
       _.map reports, (pair) ->
         rep = pair[1]
         caseName = rep.reportfile.split('.')[0]
-        rep.url = url + caseName + '.html'
+        rep.url = path + caseName + '.html'
         rep
     .catch (error) =>
       console.log error
