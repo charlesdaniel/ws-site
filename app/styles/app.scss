@@ -1,5 +1,8 @@
 @import "bootstrap";
 
+.dropdown-menu {
+    display: inline-block;
+}
 .doc-viewer {
     width: inherit;
     height: calc(100% - 48px);
@@ -33,6 +36,7 @@
         width: inherit;
         height: inherit;
         overflow: auto;
+        padding: 4px;
     }
 }
 

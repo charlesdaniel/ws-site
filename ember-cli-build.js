@@ -14,7 +14,7 @@ module.exports = function(defaults) {
 
   var extra = new Funnel('bower_components/bootstrap-sass/assets');
 
-  app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap.js');
+  //app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap.js');
 
   return app.toTree(extra);
 };

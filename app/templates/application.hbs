@@ -1,5 +1,71 @@
 {{title (t 'home.title')}}
-{{nav-bar}}
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" aria-expanded="{{if isMenuShowing 'true' 'false'}}" {{action 'showMenu'}}>
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      {{#link-to 'index' class="navbar-brand"}}{{t 'brand.link'}}{{/link-to}}
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {{#active-link}}
+          <a
+            class="dropdown-toggle"
+            role="button"
+            aria-haspopup="true"
+            {{action (action (mut isShowingGuide) (not isShowingGuide))}}
+          >{{t 'guide.trigger'}} <span class="caret"></span></a>
+          {{#if isShowingGuide}}
+          <ul class="dropdown-menu">
+          {{#active-link}}
+            {{#link-to 'guide.index'}}{{t 'guide.link'}}{{/link-to}}
+          {{/active-link}}
+          {{#active-link}}
+            {{#link-to 'guide.ssl'}}{{t 'guide.ssl.link'}}{{/link-to}}
+          {{/active-link}}
+          {{#active-link}}
+            {{#link-to 'guide.deflate'}}{{t 'guide.deflate.link'}}{{/link-to}}
+          {{/active-link}}
+          </ul>
+          {{/if}}
+        {{/active-link}}
+        {{#active-link}}
+          {{#link-to 'docs'}}{{t 'docs.link'}}{{/link-to}}
+        {{/active-link}}
+        {{#active-link class="dropdown"}}
+          <a
+            class="dropdown-toggle"
+            role="button"
+            aria-haspopup="true"
+            {{action (action (mut isShowingTest) (not isShowingTest))}}
+          >{{t 'testing.trigger'}} <span class="caret"></span></a>
+          {{#if isShowingTest}}
+          <ul class="dropdown-menu">
+            {{#active-link}}
+              {{#link-to 'testing.index'}}{{t 'testing.rust.link'}}{{/link-to}}
+            {{/active-link}}
+            {{#active-link}}
+            {{#link-to 'testing.autobahn'}}{{t 'testing.autobahn.link'}}{{/link-to}}
+            {{/active-link}}
+            {{#active-link}}
+            {{#link-to 'testing.results'}}{{t 'testing.results.link'}}{{/link-to}}
+            {{/active-link}}
+          </ul>
+          {{/if}}
+        {{/active-link}}
+        {{#active-link}}
+          {{#link-to 'examples'}}{{t 'examples.link'}}{{/link-to}}
+        {{/active-link}}
+        <li><a target="_blank" href="https://github.com/housleyjk/ws-rs">{{t 'repository.link'}}</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <div class="container-fluid" id="main-content">
   <div class="row">
     <div class="col-xs-12 col-md-8 non-chat">

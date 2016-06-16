@@ -23,10 +23,10 @@
 
 <section>
   <h3>{{t 'testing.results.server'}}</h3>
-  {{autobahn-test-list reportsUrl='/reports/servers/'}}
+  {{autobahn-test-list reports=model.servers}}
 </section>
 
 <section>
   <h3>{{t 'testing.results.client'}}</h3>
-  {{autobahn-test-list reportsUrl='/reports/clients/'}}
+  {{autobahn-test-list reports=model.clients}}
 </section>

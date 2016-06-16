@@ -29,7 +29,7 @@ module.exports = function(environment) {
     },
 
     API: {
-      wsAddress: 'ws://10.0.0.11:3012',
+      wsAddress: 'ws://localhost:3012',
     },
 
     docs: {
@@ -39,6 +39,10 @@ module.exports = function(environment) {
     autobahn: {
       clients: '/reports/clients',
       servers: '/reports/servers',
+    },
+
+    fastboot: {
+      hostWhitelist: ['ws-rs.org', '127.0.0.1:3080', /^localhost:\d+$/],
     },
   };
 
@@ -63,7 +67,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.API.wsAddress = 'wss://ws-rs.org/socket';
   }
 
   return ENV;
