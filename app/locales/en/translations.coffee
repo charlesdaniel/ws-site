@@ -24,7 +24,7 @@ Translations = {
       examplesLink: 'examples'
       afterExamplesLink: 'demonstrating various tasks that can be solved with WebSockets. Make sure to check out the'
       guideLink: 'guide'
-      afterGuideLink: 'to help get started.'
+      afterGuideLink: "to help get started. The documentation is also available as a static page <a target='_blank' href='https://ws-rs.org/api_docs/ws/index.html'>here</a>."
 
     benchmark:
       header: 'Comparison with other WebSocket libraries'
