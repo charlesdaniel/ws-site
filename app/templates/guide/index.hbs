@@ -169,7 +169,7 @@ impl Handler for Server {
         Ok(self.count.set(self.count.get() + 1))
     }
 
-    fn on_message(&amp;mut self, msg: Message) -&amp;gt; Result&lt;()&gt; {
+    fn on_message(&amp;mut self, msg: Message) -&gt; Result&lt;()&gt; {
         // Tell the user the current count
         println!("The number of live connections is {}", self.count.get());
 
